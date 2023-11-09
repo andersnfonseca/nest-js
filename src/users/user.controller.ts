@@ -1,39 +1,15 @@
-import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
-import { randomUUID } from "crypto";
-
-type params = {
-  id: string;
-  idEmpresa: string;
-}
-
-type queryUser = {
-  p: string
-  r: string
-}
-
-type bodyUser = {
-  name: string
-  age: number
-}
+import { Body, Controller, Post } from "@nestjs/common/decorators";
+import { CreateUserUseCase } from "./useCases/create-user.usecase";
+import { CreateUserDTO } from "./dto/user.dto";
 
 @Controller('/users')
 export class UserController {
-  @Get("/:id/:idEmpresa")
-  findById(@Param() params: params) {
-    return 'This action returns a user' + 'Id USER: ' + params.id + 'ID Empresa: ' + params.idEmpresa;
-  }
+  constructor(private createUserUseCase: CreateUserUseCase) {}
 
-  @Get('/findByPages')
-  findByPages(@Query() queries: queryUser) {
-    return 'Queries' + JSON.stringify(queries);
-  }
-
-  @Post('/create')
-  create(@Body() data: bodyUser) {
-    return {
-      ...data,
-      id: randomUUID(),
-      msg: 'User created successfully'
-    }
-  }
+  @Post()
+  async create(@Body() data: CreateUserDTO) {
+    return await this.createUserUseCase.execute(data)
+  } 
+ 
 }
+
