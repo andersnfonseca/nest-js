@@ -7,6 +7,9 @@ import { IUserRepository } from "../repositories/user.repository"
 
 @Injectable()
 export class CreateUserUseCase {
+    findAll() {
+      throw new Error("Method not implemented.")
+    }
     
     constructor(private userRepository: IUserRepository) {}
 
