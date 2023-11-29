@@ -7,7 +7,7 @@ import { Injectable } from "@nestjs/common";
  export class UserPrismaRepository implements IUserRepository {
 
     constructor(private prismaService: PrismaService) {}
-    findById(id: string): Promise<UserCreatedDTO> {
+    findById(id: string): Promise<UserCreatedDTO | null> {
         return this.prismaService.user.findUnique({
             where: {
                 id: Number(id)
@@ -15,7 +15,7 @@ import { Injectable } from "@nestjs/common";
         })
     }
 
-     async findUserByUsernameOrEmail(data: UsernameAndEmail): Promise<UserCreatedDTO> {
+     async findUserByUsernameOrEmail(data: UsernameAndEmail): Promise<UserCreatedDTO | null> {
        return await this.prismaService.user.findFirst({
         where: {
             OR: [{username: data.username}, {email: data.email}]
