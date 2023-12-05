@@ -16,3 +16,12 @@ export type UserCreatedDTO = {
     id: number,
     createdAt: Date
 } & CreateUserDTO
+
+export type FileDTO = {
+    fieldname: string,
+    originalname: string,
+    encoding: string,
+    mimetype: string,
+    buffer: Buffer,
+    size: number
+}
