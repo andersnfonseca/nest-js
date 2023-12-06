@@ -5,15 +5,13 @@ export type CreateUserDTO = {
     name: string,
 }
 
-
 export type UsernameAndEmail = {
     email: string,
     username: string
 }
 
-
 export type UserCreatedDTO = {
-    id: number,
+    id: string,
     createdAt: Date
 } & CreateUserDTO
 

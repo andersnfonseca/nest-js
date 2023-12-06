@@ -12,11 +12,12 @@ datasource db {
 }
 
 model User {
-  id        String      @id @default(uuid())
+  id      String      @id @default(uuid())
   username String @unique
   email String @unique
   password String
   name String
+  avatarUrl String?
   createdAt DateTime @default(now())
   TaskUser TaskUser[]
   @@map("users")

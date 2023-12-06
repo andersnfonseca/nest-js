@@ -1,5 +1,5 @@
 export type TaskUserRequestDTO = {
-    userId: number;
+    userId: string;
     title: string;
     description: string;
     startAt: Date;
@@ -9,5 +9,5 @@ export type TaskUserRequestDTO = {
 }
 
 export type TaskUserResponseDTO = {
-    id: number; 
+    id: string; 
 }
