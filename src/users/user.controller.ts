@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UploadedFile, UseGuards, UseInterceptors, UsePipes } from "@nestjs/common/decorators";
+import { Body, Controller, Get, Post, Put, UploadedFile, UseGuards, UseInterceptors, UsePipes } from "@nestjs/common/decorators";
 import { CreateUserUseCase } from "./useCases/create-user.usecase";
 import { CreateUserDTO, FileDTO } from "./dto/user.dto";
 import { CreateUserValidationPipe } from "./pipe/create-user.validation.pipe";
@@ -7,10 +7,11 @@ import { Request } from "@nestjs/common/decorators";
 import { ProfileUserUseCase } from "./useCases/profile-user.usecase";
 import { CreateUserResponseSchemaDTO, CreateUserSchemaDTO } from "./schemas/create-user.schema";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { UploadAvatarUserUseCase } from "./useCases/upload-avatar-user.usecase";
 
 @Controller("/users")
 export class UserController {
-  constructor(private createUserUseCase: CreateUserUseCase, private readonly profileUserUseCase: ProfileUserUseCase) {}
+  constructor(private createUserUseCase: CreateUserUseCase, private readonly profileUserUseCase: ProfileUserUseCase, private readonly uploadAvatarUserUseCase: UploadAvatarUserUseCase) {}
   
   @Post()
   @UsePipes(new CreateUserValidationPipe())
@@ -26,11 +27,17 @@ export class UserController {
      return await this.profileUserUseCase.execute(req.user.id)
   }
 
-  @Post("/avatar")
+  @Put("/avatar")
   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor("file"))
   async uploadAvatar(@Request() req, @UploadedFile() file: FileDTO) {
-      console.log(file)
+
+    
+      const result = this.uploadAvatarUserUseCase.execute({
+        file,
+        idUser: req.user.id
+      })
+      return result
   }
 }
 
